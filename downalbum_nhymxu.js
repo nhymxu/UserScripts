@@ -1,3 +1,39 @@
+// ==UserScript==
+// @name          Dz - DownAlbum
+// @author        nhymxu
+// @version       0.20.7.1a
+// @description   Download Facebook (Album & Video), Instagram, Pinterest, Twitter, Ask.fm, Weibo Album.
+// @namespace     DzDownAlbum
+// @grant         unsafeWindow
+// @grant         GM_xmlhttpRequest
+// @include       htt*://*.facebook.com/*
+// @include       htt*://*.facebook.com/*/*
+// @include       htt*://instagram.com/*
+// @include       htt*://*.instagram.com/*
+// @exclude       htt*://*static*.facebook.com*
+// @exclude       htt*://*channel*.facebook.com*
+// @exclude       htt*://developers.facebook.com/*
+// @exclude       htt*://upload.facebook.com/*
+// @exclude       htt*://*onnect.facebook.com/*
+// @exclude       htt*://*acebook.com/connect*
+// @exclude       htt*://*.facebook.com/plugins/*
+// @exclude       htt*://*.facebook.com/l.php*
+// @exclude       htt*://*.facebook.com/ai.php*
+// @exclude       htt*://*.facebook.com/extern/*
+// @exclude       htt*://*.facebook.com/pagelet/*
+// @exclude       htt*://api.facebook.com/static/*
+// @exclude       htt*://*.facebook.com/contact_importer/*
+// @exclude       htt*://*.facebook.com/ajax/*
+// @exclude       htt*://www.facebook.com/places/map*_iframe.php*
+// @exclude       https://www.facebook.com/xti.php
+// @exclude       https://*.ak.facebook.com/*
+// @exclude       https://www.facebook.com/ajax/pagelet/generic.php/*
+// @exclude       https://www.facebook.com/*/plugins/*
+// @exclude       https://www.facebook.com/xti.php*
+// @require       https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js
+// ==/UserScript==
+
 const base = 'https://www.instagram.com/';
 const phoneUA = 'Instagram 27.0.0.7.97 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 1440x2560) AppleWebKit/420+';
 const loadedPosts = {};
