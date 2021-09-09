@@ -45,10 +45,7 @@ function openWindow() {
         </script></body></html>`);
             win.document.close();
             if (toExport) {
-                sendRequest({
-                    type: 'export',
-                    data: toExport
-                });
+                nx_export_data(toExport);
                 toExport = null;
             }
         }

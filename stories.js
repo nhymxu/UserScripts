@@ -75,3 +75,25 @@ async function loadStories(id, highlightId = '') {
         alert('Cannot load stories');
     }
 }
+
+if (unsafeWindow === undefined) {
+    alert("Cannot init script. Please try Greasemonkey/Scriptish.");
+} else {
+    unsafeWindow.name = 'main';
+    console = unsafeWindow.console;
+    try {
+        // var expG = exportFunction(g, unsafeWindow, {
+        //     defineAs: "g"
+        // });
+        // unsafeWindow.g = expG;
+        var expLoadStories = exportFunction(loadStories, unsafeWindow, {
+            defineAs: "loadStories"
+        });
+        unsafeWindow.dzLoadStories = expLoadStories;
+    } catch (e) {
+        unsafeWindow.dzLoadStories = expLoadStories;
+        // unsafeWindow.g = g;
+    }
+    // document.addEventListener("DOMContentLoaded", dFAinit, false);
+    // setTimeout(dFAinit, 2000);
+}
