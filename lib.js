@@ -182,7 +182,7 @@ function nx_export_data(request, sender, sendResponse) {
     const videoUrl = window.URL.createObjectURL(videoFile);
     
     var tHTML = '<html><body class="index">' + '<script>document.title=\'' + c.aAuth + (c.aAuth ? "-" : "") + c.aName + '\';</script>';
-    tHTML = tHTML + '<link href="https://raw.githubusercontent.com/nhymxu/DownAlbum/main/style.css?token=AAECYQJMBCDPBV2MGSKKRGTBHIR4E">';
+    tHTML = tHTML + '<link href="https://raw.githubusercontent.com/nhymxu/DownAlbum/dev/style.css">';
     tHTML = tHTML + '<header id="hd"><div class="logo" id="logo"><div class="wrapper"><h1><a id="aName" href=' + c.aLink + '>' + c.aName + '</a> ' + ((c.aAuth) ? '- ' + c.aAuth : "") + ' <button onClick="cleanup()">ReStyle</button> <a download="' + c.aAuth + '.txt" target="_blank" href="' + rawUrl + '">saveRawData</a> <a download="' + c.aAuth + '-photos.txt" target="_blank" href="' + photoUrl + '">savePhotoUrl (' + photos.length + ')</a> <a download="' + c.aAuth + '-videos.txt" target="_blank" href="' + videoUrl + '">🎥 saveVideoUrl (' + videos.length + ')</a></h1><h1>Press Ctrl+S / [Mac]Command+S (with Complete option) to save all photos. [Photos are located in _files folder]</h1></div></div></header>';
     tHTML = tHTML + '<center id="aTime">' + c.aTime + '</center><br><center id="aDes">' + c.aDes + '</center><center>Download at: ' + c.dTime + '</center><br><div id="output" class="cName"></div><div class="wrapper"><div id="bd"><div id="container" class="masonry">';
     tHTML = tHTML + b.join("") + '</div></div></div><script src="https://rawgit.com/inDream/DownAlbum/master/assets/jquery.min.js"></script></body></html>';
