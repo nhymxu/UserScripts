@@ -188,10 +188,6 @@ function nx_export_data(request, sender, sendResponse) {
     tHTML = tHTML + b.join("") + '</div></div></div></body></html>';
     win.document.open();
     win.document.write(tHTML);
-    var f = win.document.getElementsByTagName('script')[0],j=win.document.createElement('script');
-    j.async = true;
-    j.src = "https://rawgit.com/inDream/DownAlbum/master/assets/jquery.min.js";
-    f.parentNode.insertBefore(j, f);
     win.document.close();
     win.focus();
 };
