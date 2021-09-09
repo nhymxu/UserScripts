@@ -9,6 +9,45 @@ var log = function(s) {
     }
 };
 
+function quickSelect(s) {
+    var method = false;
+    switch (s) {
+        case /#\w+$/.test(s):
+            method = 'getElementById';
+            break;
+        case /\.\w+$/.test(s):
+            method = 'getElementsByClassName';
+            break;
+    }
+    return method;
+}
+
+function getParent(child, selector) {
+    var target = child;
+    while (target && !target.querySelector(selector)) {
+        if (target.parentNode && target.parentNode.tagName == 'BODY') {
+            return target;
+        }
+
+        if (target.parentNode && target.parentNode.querySelector(selector)) {
+            return target;
+        }
+
+        target = target.parentNode;
+    }
+
+    return null;
+}
+
+function qS(s) {
+    var k = document[quickSelect(s) || 'querySelector'](s);
+    return k && k.length ? k[0] : k;
+}
+
+function qSA(s) {
+    return document[quickSelect(s) || 'querySelectorAll'](s);
+}
+
 function padZero(str, len) {
     str = str.toString();
     while (str.length < len) {

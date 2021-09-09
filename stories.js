@@ -76,6 +76,71 @@ async function loadStories(id, highlightId = '') {
     }
 }
 
+function loadProfile()
+{
+
+}
+
+function __addLink(k, target) {
+    var isProfile = (k.tagName == 'HEADER' || k.parentNode.tagName == 'HEADER');
+    let username = null;
+
+    if (isProfile) {
+        const u = k.parentNode.querySelector('h1, h2, span a');
+        if (u) {
+            username = u.textContent;
+            if (!username || !username.length) {
+                return;
+            }
+        }
+    }
+
+    var tParent = target.parentNode;
+    var t = k.querySelector('img, video');
+    if (t) {
+        var src = t.getAttribute('src');
+        if (!src) {
+            return setTimeout(addLink, 300);
+        }
+        src = isProfile && profiles[username] ? profiles[username].src : parseFbSrc(src);
+        if (qS('.dLink [href="' + src + '"]')) {
+            return;
+        }
+        var next = isProfile ? target.querySelector('.dLink') :
+            target.nextElementSibling;
+        if (next) {
+            if (next.childNodes[0] &&
+                next.childNodes[0].getAttribute('href') == src) {
+                return;
+            } else {
+                (isProfile ? target : tParent).removeChild(next);
+            }
+        }
+    }
+}
+
+var init = function() {
+    var href = location.href;
+    var site = href.match(/instagram\.com/);
+
+    if (document.querySelector('#dFA') || !site) {
+        return;
+    }
+
+    if (location.host.match(/instagram.com/)) {
+        if (location.href.indexOf('explore/') > 0) {
+            return;
+        }
+
+        let k = qSA('article>div:nth-of-type(2), header>div:nth-of-type(1):not([role="button"])');
+        for (var i = 0; i < k.length; i++) {
+            if (k[i].nextElementSibling) {
+                _addLink(k[i], k[i].nextElementSibling);
+            }
+        }
+    }
+};
+
 if (unsafeWindow === undefined) {
     alert("Cannot init script. Please try Greasemonkey/Scriptish.");
 } else {
@@ -94,6 +159,6 @@ if (unsafeWindow === undefined) {
         unsafeWindow.dzLoadStories = expLoadStories;
         // unsafeWindow.g = g;
     }
-    // document.addEventListener("DOMContentLoaded", dFAinit, false);
-    // setTimeout(dFAinit, 2000);
+    document.addEventListener("DOMContentLoaded", init, false);
+    setTimeout(init, 2000);
 }
