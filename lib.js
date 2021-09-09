@@ -185,10 +185,9 @@ function nx_export_data(request, sender, sendResponse) {
     tHTML = tHTML + '<link crossorigin="anonymous" href="https://raw.githubusercontent.com/nhymxu/DownAlbum/dev/style.css">';
     tHTML = tHTML + '<header id="hd"><div class="logo" id="logo"><div class="wrapper"><h1><a id="aName" href=' + c.aLink + '>' + c.aName + '</a> ' + ((c.aAuth) ? '- ' + c.aAuth : "") + ' <button onClick="cleanup()">ReStyle</button> <a download="' + c.aAuth + '.txt" target="_blank" href="' + rawUrl + '">saveRawData</a> <a download="' + c.aAuth + '-photos.txt" target="_blank" href="' + photoUrl + '">savePhotoUrl (' + photos.length + ')</a> <a download="' + c.aAuth + '-videos.txt" target="_blank" href="' + videoUrl + '">🎥 saveVideoUrl (' + videos.length + ')</a></h1><h1>Press Ctrl+S / [Mac]Command+S (with Complete option) to save all photos. [Photos are located in _files folder]</h1></div></div></header>';
     tHTML = tHTML + '<center id="aTime">' + c.aTime + '</center><br><center id="aDes">' + c.aDes + '</center><center>Download at: ' + c.dTime + '</center><br><div id="output" class="cName"></div><div class="wrapper"><div id="bd"><div id="container" class="masonry">';
-    tHTML = tHTML + b.join("") + '</div></div></div><scrip src="https://rawgit.com/inDream/DownAlbum/master/assets/jquery.min.js"></script><script>(function(w,d,s){var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://rawgit.com/inDream/DownAlbum/master/assets/jquery.min.js";f.parentNode.insertBefore(j,f);})(window,document,"script");</script></body></html>';
+    tHTML = tHTML + b.join("") + '</div></div></div><script>(function(w,d,s){var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://rawgit.com/inDream/DownAlbum/master/assets/jquery.min.js";f.parentNode.insertBefore(j,f);})(window,document,"script");</script></body></html>';
     win.document.open();
     win.document.write(tHTML);
     win.document.close();
     win.focus();
-
 };
