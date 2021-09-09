@@ -32,6 +32,7 @@
 // @exclude       https://www.facebook.com/xti.php*
 // @require       https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js
+// @require       lib.js
 // ==/UserScript==
 
 const base = 'https://www.instagram.com/';
@@ -50,14 +51,6 @@ var g = {};
 
 //===================================
 // Global function
-var log = function(s) {
-    try {
-        console.log(s);
-    } catch(e) {
-        GM_log(s);
-    }
-};
-
 function request(url, opt = {}) {
     return new Promise((resolve, reject) => {
         Object.assign(opt, {
@@ -118,34 +111,6 @@ function closeDialog() {
     document.body.removeChild(qS('#daContainer'));
 }
 
-function openWindow() {
-    win = window.open(location.href);
-    win.addEventListener('readystatechange', () => {
-        if (win.document.readyState === 'interactive') {
-            isWinReady = true;
-            win.document.open();
-            win.document.write(`<html><body>
-        Loading... <a id="link" href="javascript:;">Return to Parent</a><script>
-        (function() {
-          const link = document.querySelector('#link');
-          link.addEventListener('click', () => {
-            const goBack = window.open('', 'main');
-            goBack.focus();
-          });
-        })();
-        </script></body></html>`);
-            win.document.close();
-            if (toExport) {
-                sendRequest({
-                    type: 'export',
-                    data: toExport
-                });
-                toExport = null;
-            }
-        }
-    }, true);
-}
-
 function extractJSON(str) {
     // http://stackoverflow.com/questions/10574520/
     var firstOpen, firstClose, candidate;
@@ -192,24 +157,6 @@ function parseQuery(s) {
         data[t[0]] = t[1];
     }
     return data;
-}
-
-function padZero(str, len) {
-    str = str.toString();
-    while (str.length < len) {
-        str = '0' + str;
-    }
-    return str;
-}
-
-function parseTime(t, isDate) {
-    var d = isDate ? t : new Date(t * 1000);
-    return d.getFullYear() 
-        + '-' + padZero(d.getMonth() + 1, 2) 
-        + '-' + padZero(d.getDate(), 2) 
-        + ' ' + padZero(d.getHours(), 2) 
-        + ':' + padZero(d.getMinutes(), 2) 
-        + ':' + padZero(d.getSeconds(), 2);
 }
 
 function initDataLoaded(fbid) {
