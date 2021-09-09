@@ -82,43 +82,32 @@ async function loadHighlights(id) {
 	const variables = `{"user_id":"${id}","include_highlight_reels":true}`;
 	try {
 		const url = `${base}graphql/query/?query_hash=${hash}&variables=${variables}`;
-		let r = await fetch(url, {
-			credentials: 'include'
-		});
+		let r = await fetch(url, {credentials: 'include'});
 		r = await r.json();
+
 		const list = r.data.user.edge_highlight_reels.edges;
 		if (!list || !list.length) {
 			alert('No highlights loaded');
 			return;
 		}
+
 		createDialog();
-		g.statusEle = qS('.daCounter');
+
+        g.statusEle = qS('.daCounter');
 		g.statusEle.innerHTML = '<p>Select highlight to download:</p>'
-		for (let i = 0; i < list.length; i++) {
+
+        for (let i = 0; i < list.length; i++) {
 			const n = list[i].node;
 			const a = document.createElement('a');
 			g.statusEle.appendChild(a);
 			a.style.cssText = 'width: 100px; display: inline-block;';
-			a.innerHTML = `<img src="${n.cover_media_cropped_thumbnail.url}" ` +
-				`style="width:100%;" /><br>${n.title}`;
+			a.innerHTML = `<img src="${n.cover_media_cropped_thumbnail.url}" style="width:100%;"><br>${n.title}`;
 			a.addEventListener('click', () => loadStories(id, `"${n.id}"`));
 		}
 	} catch (e) {
 		console.error(e);
 		alert('Cannot load highlights');
 	}
-}
-
-function parseFbSrc(s, fb) {
-    if (fb) {
-        return s.replace(/s\d{3,4}x\d{3,4}\//g, '');
-    }
-
-    if (!s.match(/\/fr\/|_a\.jpg|1080x/)) {
-        return s.replace(/c\d+\.\d+\.\d+\.\d+\//, '').replace(/\w\d{3,4}x\d{3,4}\//g, s.match(/\/e\d{2}\//) ? '' : 'e15/');
-    }
-
-    return s;
 }
 
 async function _get_profile_data(username) {
