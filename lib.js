@@ -45,7 +45,7 @@ function openWindow() {
         </script></body></html>`);
             win.document.close();
             if (toExport) {
-                nx_export_data(toExport);
+                nx_export_data({data: toExport});
                 toExport = null;
             }
         }
