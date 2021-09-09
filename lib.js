@@ -66,6 +66,51 @@ function parseTime(t, isDate) {
         + ':' + padZero(d.getSeconds(), 2);
 }
 
+function createDialog() {
+	if (qS('#daContainer')) {
+		qS('#daContainer').style = '';
+		qS('#stopAjaxCkb').checked = false;
+		return;
+	}
+	var d = document.createElement('div');
+	var s = document.createElement('style');
+	s.textContent = `#daContainer {position: fixed; width: 360px;
+    top: 20%; left: 50%; margin-left: -180px; background: #FFF;
+    padding: 1em; border-radius: 0.5em; line-height: 2em; z-index: 9999;
+    box-shadow: 1px 3px 3px 0 rgba(0,0,0,.2),1px 3px 15px 2px rgba(0,0,0,.2);}
+    #daHeader {font-size: 1.5rem; font-weight: 700; background: #FFF;
+    padding: 1rem 0.5rem; color: rgba(0,0,0,.85);
+    border-bottom: 1px solid rgba(34,36,38,.15);}
+    .daCounter {max-height: 300px;overflow-y: auto;}
+    #daContent {font-size: 1.2em; line-height: 1.4; padding: .5rem;}
+    #daContainer a {cursor: pointer;border: 1px solid black;padding: 10px;display: block;}
+    #stopAjaxCkb {display: inline-block; -webkit-appearance: checkbox;
+    width: auto;}`;
+	document.head.appendChild(s);
+	d.id = 'daContainer';
+	d.innerHTML = '<div id="daHeader">DownAlbum</div><div id="daContent">' +
+		'Status: <span class="daCounter"></span><br>' +
+		'<label>Stop <input id="stopAjaxCkb" type="checkbox"></label>' +
+		'<div class="daExtra"></div>' +
+		'<a class="daOutput">Output</a><a class="daClose">Close</a></div>';
+	document.body.appendChild(d);
+	qS('.daClose').addEventListener('click', hideDialog);
+	qS('.daOutput').addEventListener('click', output);
+}
+
+function hideDialog() {
+	qS('#daContainer').style = 'display: none;';
+}
+
+function output() {
+    document.title = g.photodata.aName;
+    if (g.photodata.photos.length > 1000 && !g.largeAlbum) {
+        if (confirm('Large amount of photos may crash the browser:\nOK->Use Large Album Optimize Cancel->Continue')) g.photodata.largeAlbum = true;
+    }
+    toExport = g.photodata;
+    nx_export_data({data: g.photodata});
+}
+
 function openWindow() {
     win = window.open(location.href);
     win.addEventListener('readystatechange', () => {

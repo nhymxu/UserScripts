@@ -88,35 +88,7 @@ var dFAinit = function(){
  
 
 
-async function loadHighlights(id) {
-  const hash = 'ad99dd9d3646cc3c0dda65debcd266a7';
-  const variables = `{"user_id":"${id}","include_highlight_reels":true}`;
-  try {
-    const url = `${base}graphql/query/?query_hash=${hash}&variables=${variables}`;
-    let r = await fetch(url, { credentials: 'include' });
-    r = await r.json();
-    const list = r.data.user.edge_highlight_reels.edges;
-    if (!list || !list.length) {
-      alert('No highlights loaded');
-      return;
-    }
-    createDialog();
-    g.statusEle = qS('.daCounter');
-    g.statusEle.innerHTML = '<p>Select highlight to download:</p>'
-    for (let i = 0; i < list.length; i++) {
-      const n = list[i].node;
-      const a = document.createElement('a');
-      g.statusEle.appendChild(a);
-      a.style.cssText = 'width: 100px; display: inline-block;';
-      a.innerHTML = `<img src="${n.cover_media_cropped_thumbnail.url}" ` +
-        `style="width:100%;" /><br>${n.title}`;
-      a.addEventListener('click', () => loadStories(id, `"${n.id}"`));
-    }
-  } catch (e) {
-    console.error(e);
-    alert('Cannot load highlights');
-  }
-}
+
 
 
 function photosOfHelper() {
@@ -179,41 +151,7 @@ function getSharedData(response) {
   return JSON.parse(s.match(/({".*})/)[1]);
 }
 
-function createDialog() {
-  if (qS('#daContainer')) {
-    qS('#daContainer').style = '';
-    qS('#stopAjaxCkb').checked = false;
-    return;
-  }
-  var d = document.createElement('div');
-  var s = document.createElement('style');
-  s.textContent = '#daContainer {position: fixed; width: 360px; \
-    top: 20%; left: 50%; margin-left: -180px; background: #FFF; \
-    padding: 1em; border-radius: 0.5em; line-height: 2em; z-index: 9999;\
-    box-shadow: 1px 3px 3px 0 rgba(0,0,0,.2),1px 3px 15px 2px rgba(0,0,0,.2);}\
-    #daHeader {font-size: 1.5rem; font-weight: 700; background: #FFF; \
-    padding: 1rem 0.5rem; color: rgba(0,0,0,.85); \
-    border-bottom: 1px solid rgba(34,36,38,.15);} \
-    .daCounter {max-height: 300px;overflow-y: auto;} \
-    #daContent {font-size: 1.2em; line-height: 1.4; padding: .5rem;} \
-    #daContainer a {cursor: pointer;border: 1px solid black;padding: 10px; \
-      display: block;} \
-    #stopAjaxCkb {display: inline-block; -webkit-appearance: checkbox; \
-    width: auto;}';
-  document.head.appendChild(s);
-  d.id = 'daContainer';
-  d.innerHTML = '<div id="daHeader">DownAlbum</div><div id="daContent">' +
-    'Status: <span class="daCounter"></span><br>' +
-    '<label>Stop <input id="stopAjaxCkb" type="checkbox"></label>' +
-    '<div class="daExtra"></div>' +
-    '<a class="daOutput">Output</a><a class="daClose">Close</a></div>';
-  document.body.appendChild(d);
-  qS('.daClose').addEventListener('click', hideDialog);
-  qS('.daOutput').addEventListener('click', output);
-}
-function hideDialog() {
-  qS('#daContainer').style = 'display: none;';
-}
+
 
 
 function getFbMessagesPhotos() {

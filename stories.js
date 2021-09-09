@@ -17,6 +17,7 @@ const base = 'https://www.instagram.com/';
 let isWinReady = false;
 let toExport = null;
 const profiles = {};
+var g = {};
 
 async function loadStories(id, highlightId = '') {
     const hash = '61e453c4b7d667c6294e71c57afa6e63';
@@ -76,10 +77,38 @@ async function loadStories(id, highlightId = '') {
     }
 }
 
-function loadProfile(username)
-{
-
+async function loadHighlights(id) {
+	const hash = 'ad99dd9d3646cc3c0dda65debcd266a7';
+	const variables = `{"user_id":"${id}","include_highlight_reels":true}`;
+	try {
+		const url = `${base}graphql/query/?query_hash=${hash}&variables=${variables}`;
+		let r = await fetch(url, {
+			credentials: 'include'
+		});
+		r = await r.json();
+		const list = r.data.user.edge_highlight_reels.edges;
+		if (!list || !list.length) {
+			alert('No highlights loaded');
+			return;
+		}
+		createDialog();
+		g.statusEle = qS('.daCounter');
+		g.statusEle.innerHTML = '<p>Select highlight to download:</p>'
+		for (let i = 0; i < list.length; i++) {
+			const n = list[i].node;
+			const a = document.createElement('a');
+			g.statusEle.appendChild(a);
+			a.style.cssText = 'width: 100px; display: inline-block;';
+			a.innerHTML = `<img src="${n.cover_media_cropped_thumbnail.url}" ` +
+				`style="width:100%;" /><br>${n.title}`;
+			a.addEventListener('click', () => loadStories(id, `"${n.id}"`));
+		}
+	} catch (e) {
+		console.error(e);
+		alert('Cannot load highlights');
+	}
 }
+
 function parseFbSrc(s, fb) {
     if (fb) {
         return s.replace(/s\d{3,4}x\d{3,4}\//g, '');
@@ -201,17 +230,17 @@ if (unsafeWindow === undefined) {
     unsafeWindow.name = 'main';
     console = unsafeWindow.console;
     try {
-        // var expG = exportFunction(g, unsafeWindow, {
-        //     defineAs: "g"
-        // });
-        // unsafeWindow.g = expG;
-        var expLoadStories = exportFunction(loadStories, unsafeWindow, {
-            defineAs: "loadStories"
+        var expG = exportFunction(g, unsafeWindow, {
+            defineAs: "g"
         });
-        unsafeWindow.loadStories = expLoadStories;
+        unsafeWindow.g = expG;
+        // var expLoadStories = exportFunction(loadStories, unsafeWindow, {
+        //     defineAs: "loadStories"
+        // });
+        // unsafeWindow.loadStories = expLoadStories;
     } catch (e) {
-        unsafeWindow.loadStories = expLoadStories;
-        // unsafeWindow.g = g;
+        // unsafeWindow.loadStories = loadStories;
+        unsafeWindow.g = g;
     }
     document.addEventListener("DOMContentLoaded", init, false);
     setTimeout(init, 2000);
