@@ -16,7 +16,7 @@
 const base = 'https://www.instagram.com/';
 let isWinReady = false;
 let toExport = null;
-
+const profiles = {};
 
 async function loadStories(id, highlightId = '') {
     const hash = '61e453c4b7d667c6294e71c57afa6e63';
@@ -76,14 +76,26 @@ async function loadStories(id, highlightId = '') {
     }
 }
 
-function loadProfile()
+function loadProfile(username)
 {
 
 }
+function parseFbSrc(s, fb) {
+    if (fb) {
+        return s.replace(/s\d{3,4}x\d{3,4}\//g, '');
+    }
 
-function __addLink(k, target) {
+    if (!s.match(/\/fr\/|_a\.jpg|1080x/)) {
+        return s.replace(/c\d+\.\d+\.\d+\.\d+\//, '').replace(/\w\d{3,4}x\d{3,4}\//g, s.match(/\/e\d{2}\//) ? '' : 'e15/');
+    }
+
+    return s;
+}
+
+async function _addLink(k, target) {
     var isProfile = (k.tagName == 'HEADER' || k.parentNode.tagName == 'HEADER');
     let username = null;
+    let user_id = null;
 
     if (isProfile) {
         const u = k.parentNode.querySelector('h1, h2, span a');
@@ -115,6 +127,43 @@ function __addLink(k, target) {
             } else {
                 (isProfile ? target : tParent).removeChild(next);
             }
+        }
+    }
+
+    if (isProfile) {
+        if (profiles[username] === null) {
+            return;
+        }
+        
+        if (profiles[username] === undefined) {
+            profiles[username] = null;
+            try {
+                let r = await fetch(`https://www.instagram.com/${username}/?__a=1`);
+                user_id = (await r.json()).graphql.user.id;
+                profiles[username] = {user_id};
+            } catch (e) {
+                console.error(e);
+                profiles[username] = null;
+            }
+        }
+
+        if (!profiles[username]) {
+            return;
+        }
+
+        if (!k.querySelector(`.dStory[data-id="${user_id}"]`)) {
+            const storyBtn = document.createElement('a');
+            storyBtn.className = 'dStory';
+            storyBtn.style.cssText = 'max-width: 200px; cursor: pointer; display: block;';
+            storyBtn.dataset.id = user_id;
+            storyBtn.textContent = '📥 Stories';
+            k.appendChild(storyBtn);
+            storyBtn.addEventListener('click', () => loadStories(user_id));
+            const highlightBtn = document.createElement('a');
+            highlightBtn.style.cssText = 'max-width: 200px; cursor: pointer;';
+            highlightBtn.textContent = '📥 Highlights';
+            k.appendChild(highlightBtn);
+            highlightBtn.addEventListener('click', () => loadHighlights(user_id));
         }
     }
 }
@@ -154,9 +203,9 @@ if (unsafeWindow === undefined) {
         var expLoadStories = exportFunction(loadStories, unsafeWindow, {
             defineAs: "loadStories"
         });
-        unsafeWindow.dzLoadStories = expLoadStories;
+        unsafeWindow.loadStories = expLoadStories;
     } catch (e) {
-        unsafeWindow.dzLoadStories = expLoadStories;
+        unsafeWindow.loadStories = expLoadStories;
         // unsafeWindow.g = g;
     }
     document.addEventListener("DOMContentLoaded", init, false);
