@@ -92,7 +92,17 @@ function parseFbSrc(s, fb) {
     return s;
 }
 
-async function _addLink(k, target) {
+async function _get_profile_data(username) {
+    try {
+        let r = await fetch(`https://www.instagram.com/${username}/?__a=1`);
+        return (await r.json()).graphql.user.id;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+function _addLink(k, target) {
     var isProfile = (k.tagName == 'HEADER' || k.parentNode.tagName == 'HEADER');
     let username = null;
     let user_id = null;
@@ -137,14 +147,9 @@ async function _addLink(k, target) {
         
         if (profiles[username] === undefined) {
             profiles[username] = null;
-            try {
-                let r = await fetch(`https://www.instagram.com/${username}/?__a=1`);
-                user_id = (await r.json()).graphql.user.id;
-                profiles[username] = {user_id};
-            } catch (e) {
-                console.error(e);
-                profiles[username] = null;
-            }
+            // user_id = _get_profile_data(username);
+            user_id = unsafeWindow._sharedData.entry_data.ProfilePage[0].graphql.user.id;
+            profiles[username] = {user_id};
         }
 
         if (!profiles[username]) {
