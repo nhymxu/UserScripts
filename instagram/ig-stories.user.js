@@ -10,7 +10,7 @@
 // @include       htt*://*.instagram.com/*
 // @require       https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js
-// @require       https://raw.githubusercontent.com/nhymxu/DownAlbum/main/lib.js
+// @require       https://raw.githubusercontent.com/nhymxu/UserScripts/main/instagram/lib.js
 // ==/UserScript==
 
 const base = 'https://www.instagram.com/';
