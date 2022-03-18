@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Nhymxu prevent shorten link
 // @namespace    https://dungnt.net/
-// @version      0.1.0
+// @version      0.1.1
 // @description  try to take over the world!
 // @author       Dz
 // @match        https://link1s.com/st*

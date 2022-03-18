@@ -1,1 +1,1 @@
-# template-repository
+# Greasemonkey/Tampermonkey user script
