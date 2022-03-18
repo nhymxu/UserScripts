@@ -8,6 +8,8 @@
 // @match        https://*.medium.com/*
 // @icon         https://www.google.com/s2/favicons?domain=medium.com
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/nhymxu/UserScripts/main/medium-auto-delete-cookie.js
+// @downloadURL    https://raw.githubusercontent.com/nhymxu/UserScripts/main/medium-auto-delete-cookie.js
 // ==/UserScript==
 
 (function() {

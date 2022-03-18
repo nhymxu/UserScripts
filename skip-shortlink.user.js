@@ -13,6 +13,8 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // @run-at       document-start
+// @updateURL    https://raw.githubusercontent.com/nhymxu/UserScripts/main/skip-shortlink.user.js
+// @downloadURL  https://raw.githubusercontent.com/nhymxu/UserScripts/main/skip-shortlink.user.js
 // ==/UserScript==
 
 (function() {

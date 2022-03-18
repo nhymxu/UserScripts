@@ -8,8 +8,10 @@
 // @match        https://news.ycombinator.com/*
 // @icon         https://www.google.com/s2/favicons?domain=ycombinator.com
 // @resource     NxCustomCSS https://gist.githubusercontent.com/Darrenmeehan/d7ccd863abec1a0c348d2aa6ba920b0d/raw/6c934e5e69a6e9e17cc91913e4e9579636100ae9/hn.css
-// @grant GM_getResourceText
-// @grant GM_addStyle
+// @grant        GM_getResourceText
+// @grant        GM_addStyle
+// @updateURL    https://raw.githubusercontent.com/nhymxu/UserScripts/main/hackernews.js
+// @downloadURL  https://raw.githubusercontent.com/nhymxu/UserScripts/main/hackernews.js
 // ==/UserScript==
 
 (function() {
