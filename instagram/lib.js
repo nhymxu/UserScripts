@@ -211,7 +211,8 @@ function nx_export_data(request, sender, sendResponse) {
         }
 
         if (d[i].date) {
-            dateInd = '<div class="dateInd"><span>' + d[i].date + '</span> <i class="tagArrow dateInd"></i></div>';
+            var formated_date = d[i].date.replace(' ', '_').replaceAll(':', '');
+            dateInd = '<div class="dateInd"><span>' + formated_date + '</span> <i class="tagArrow dateInd"></i></div>';
         }
 
         var videoInd = d[i].videoIdx !== undefined ? `<a class="videoInd" href="${c.videos[d[i].videoIdx].url}" target="_blank">🎥</a>` : '';
