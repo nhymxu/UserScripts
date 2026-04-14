@@ -4,9 +4,9 @@
 // @version      2026-04-14
 // @description  Switch to light mode for substack and substack base website.
 // @author       Dzung Nguyen (nhymxu)
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=substack.com
 // @match        https://thoughts.jock.pl/
 // @match        https://www.softwareenchiridion.com/
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=jock.pl
 // @grant        GM_addStyle
 // @updateURL    https://raw.githubusercontent.com/nhymxu/UserScripts/main/substack-light-mode.user.js
 // @downloadURL  https://raw.githubusercontent.com/nhymxu/UserScripts/main/substack-light-mode.user.js
